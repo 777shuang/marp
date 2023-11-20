@@ -1,0 +1,60 @@
+name: Build
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install marp
+        run: npm install -g @marp-team/marp-cli
+
+      - name: Download Theme
+        run: wget "https://raw.githubusercontent.com/kaisugi/marp-theme-academic/main/themes/academic.css"
+
+      - name: Get Changed Markdown Files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
+        with:
+          files: |
+            **/*.md
+
+      - name: Convert Changed Markdown Files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            marp --pdf --theme academic.css $file
+            marp --pptx --theme academic.css $file
+          done
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v3
+        with:
+          name: PDF
+          path: |
+            */*.pdf
+      
+      - name: Upload PPTX
+        uses: actions/upload-artifact@v3
+        with:
+          name: PPTX
+          path: |
+            */*.pptx
