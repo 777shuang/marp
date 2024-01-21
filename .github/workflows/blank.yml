@@ -50,11 +50,11 @@ jobs:
         with:
           name: PDF
           path: |
-            */*.pdf
+            **.pdf
       
       - name: Upload PPTX
         uses: actions/upload-artifact@v3
         with:
           name: PPTX
           path: |
-            */*.pptx
+            **.pptx
