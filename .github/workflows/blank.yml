@@ -41,8 +41,8 @@ jobs:
       - name: Convert Changed Markdown Files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            marp --pdf --theme academic.css $file
-            marp --pptx --theme academic.css $file
+            npx @marp-team/marp-cli --pdf --theme academic.css $file
+            npx @marp-team/marp-cli --pptx --theme academic.css $file
           done
 
       - name: Upload PDF
