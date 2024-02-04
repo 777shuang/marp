@@ -2,6 +2,7 @@
 marp: true
 paginate: true
 math: katex
+theme: academic
 ---
 
 # 動作概念図
