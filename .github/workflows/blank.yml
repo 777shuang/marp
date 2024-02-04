@@ -26,7 +26,9 @@ jobs:
           node-version: 18
 
       - name: Install marp
-        run: npm install -g @marp-team/marp-cli
+        run: |
+          npm install -g --save-dev @marp-team/marp-cli
+          npm install -g markdown-it-plantuml
 
       - name: Download Theme
         run: wget "https://raw.githubusercontent.com/kaisugi/marp-theme-academic/main/themes/academic.css"
