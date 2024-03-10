@@ -24,12 +24,7 @@ jobs:
           node-version: 18
 
       - name: Install marp
-        run: |
-          npm install -g --save-dev @marp-team/marp-cli
-          npm install -g markdown-it-plantuml
-
-      - name: Download Theme
-        run: wget "https://raw.githubusercontent.com/kaisugi/marp-theme-academic/main/themes/academic.css"
+        run: npm install -g --save-dev @marp-team/marp-cli
 
       - name: Get Changed Markdown Files
         id: changed-files
@@ -41,8 +36,8 @@ jobs:
       - name: Convert Changed Markdown Files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            npx @marp-team/marp-cli --pdf --theme academic.css $file
-            npx @marp-team/marp-cli --pptx --theme academic.css $file
+            npx @marp-team/marp-cli --pdf --theme .themes/academic.css $file
+            npx @marp-team/marp-cli --pptx --theme .themes/academic.css $file
           done
 
       - name: Upload PDF
